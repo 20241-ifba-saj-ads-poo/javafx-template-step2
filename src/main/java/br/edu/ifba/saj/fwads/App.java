@@ -16,13 +16,18 @@ import javafx.stage.Stage;
 public class App extends Application {
 
     private static Scene scene;
+    private static FXMLLoader loader;
 
     @Override
     public void start(Stage stage) throws IOException {
-        FXMLLoader loader = new FXMLLoader(App.class.getResource("controller/Login.fxml"));
+        loader = new FXMLLoader(App.class.getResource("controller/Login.fxml"));
         scene = new Scene(loader.load(), 800, 600);
         stage.setScene(scene);
         stage.show();
+    }
+
+    public static Object getController() {
+        return loader.getController();
     }
 
     public static void setRoot(String fxml) {
@@ -31,7 +36,7 @@ public class App extends Application {
 
     public static Parent loadFXML(String fxml) {
         try {
-            FXMLLoader loader = new FXMLLoader(App.class.getResource(fxml));
+            loader = new FXMLLoader(App.class.getResource(fxml));
             Parent parent = loader.load();
             Object controller = loader.getController();
             if (controller != null) {
