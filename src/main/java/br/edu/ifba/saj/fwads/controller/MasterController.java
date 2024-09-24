@@ -92,4 +92,8 @@ public class MasterController {
             e.printStackTrace();
         }
     }
+
+    public void setEmail(String email) {
+        userEmail.setText(email);
+    }
 }

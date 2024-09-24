@@ -5,6 +5,9 @@
 package br.edu.ifba.saj.fwads.controller;
 
 import br.edu.ifba.saj.fwads.App;
+import br.edu.ifba.saj.fwads.exception.LoginInvalidoException;
+import br.edu.ifba.saj.fwads.model.Usuario;
+import br.edu.ifba.saj.fwads.negocio.ValidaUsuario;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
@@ -22,11 +25,14 @@ public class LoginController {
 
     @FXML
     void entrar(ActionEvent event) {
-        if(txUsuario.getText().equals("admin") && txSenha.getText().equals("admin")){
-            new Alert(AlertType.INFORMATION, "Usuário e senha corretos").showAndWait();
+        ValidaUsuario validaUsuario = new ValidaUsuario();
+        try {
+            Usuario usuario = validaUsuario.validaLogin(txUsuario.getText(), txSenha.getText());
             App.setRoot("controller/Master.fxml");
-        }else{
-            new Alert(AlertType.ERROR, "Usuário ou senha inválidos").show();
+            MasterController controller =  (MasterController)App.getController();
+            controller.setEmail(usuario.getEmail());
+        } catch (LoginInvalidoException e) {
+            new Alert(AlertType.ERROR, e.getMessage()).showAndWait();
         }
     }
 
